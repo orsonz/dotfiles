@@ -1,0 +1,37 @@
+[core]
+	excludesfile = /Users/zengeist/.gitignore
+	editor = vim
+[user]
+	name = Roman Komkov
+	email = r.komkov@gmail.com
+[alias]
+	co = checkout
+	s = status -s -b
+	b = branch
+	f = fetch
+	c = commit
+	ps = push
+	pst = push --tags
+	pl = pull
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	in = "!git remote update -p; git log ..@{u}"
+	out = log @{u}..
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[color]
+	branch = auto
+	diff = auto
+        interactive = auto
+        status = auto
+[diff]
+	prompt = true
+	tool = vimdiff
+[merge]
+	prompt = true
+	tool = vimdiff
+[github]
+	user = decayofmind
