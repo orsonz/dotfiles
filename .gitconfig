@@ -17,6 +17,7 @@
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	in = "!git remote update -p; git log ..@{u}"
 	out = log @{u}..
+	sh = describe --always
 	d = difftool
 [push]
 	default = simple
