@@ -10,6 +10,7 @@
 	b = branch
 	f = fetch
 	c = commit
+	mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
 	ps = push
 	pst = push --tags
 	pl = pull
@@ -20,7 +21,8 @@
 	sh = describe --always
 	d = difftool
 [push]
-	default = simple
+	default = current
+	followTags = true
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
