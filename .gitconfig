@@ -3,7 +3,7 @@
 	editor = vim
 [user]
 	name = Roman Komkov
-	email = r.komkov@gmail.com
+	useConfigOnly = true
 [alias]
 	co = checkout
 	s = status -s -b
@@ -41,3 +41,5 @@
 	user = decayofmind
 [difftool]
 	prompt = false
+[diff "sopsdiffer"]
+	textconv = sops -d
