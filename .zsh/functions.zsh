@@ -19,12 +19,3 @@ zshbench() {
     /usr/bin/time /usr/local/bin/zsh -i -c exit
   done
 }
-
-mitogen-enable() {
-	sed -i '' 's/^#*strategy/strategy/' ~/.ansible.cfg
-	printf "Mitogen enabled"
-}
-mitogen-disable() {
-	sed -i '' 's/^strategy/#strategy/' ~/.ansible.cfg
-	printf "Mitogen disabled"
-}
