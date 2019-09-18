@@ -31,3 +31,12 @@ pyenv-brew-relink() {
     ln -s --force $i $HOME/.pyenv/versions/${i##/*/}-brew;
   done
 }
+
+mitogen-enable() {
+	sed -i '' 's/^#*strategy/strategy/' ~/.ansible.cfg
+	printf "Mitogen enabled"
+}
+mitogen-disable() {
+	sed -i '' 's/^strategy/#strategy/' ~/.ansible.cfg
+	printf "Mitogen disabled"
+}
