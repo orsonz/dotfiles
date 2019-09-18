@@ -1,5 +1,9 @@
+# vim:foldlevel=0
+# vim:foldmethod=marker
+
 # zmodload zsh/zprof && zprof
 
+# Zplugin {{{
 if [[ ! -d ~/.zplugin ]]; then
   mkdir ~/.zplugin
   git clone https://github.com/zdharma/zplugin.git ~/.zplugin/bin
@@ -7,28 +11,25 @@ fi
 
 source ~/.zplugin/bin/zplugin.zsh
 
+# Prezto {{{
+zplg snippet PZT::modules/environment/init.zsh
+zplg snippet PZT::modules/gnu-utility/init.zsh
+# zstyle ':prezto:module:utility' safe-ops 'no'
+zplg snippet PZT::modules/utility/init.zsh
+zplg ice wait'1' lucid; zplg snippet PZT::modules/directory/init.zsh
+zplg snippet PZT::modules/history/init.zsh
+zplg snippet PZT::modules/completion/init.zsh
+zplg snippet PZT::modules/osx/init.zsh
+zplg snippet PZT::modules/gpg/init.zsh
 
-zplg ice svn lucid wait'1'; zplg snippet PZT::modules/environment
-zplg ice svn lucid wait'1'; zplg snippet PZT::modules/gnu-utility
-zplg ice svn lucid wait'1'; zplg snippet PZT::modules/utility
-zplg ice svn lucid wait'1' pick'init.zsh'
-zplg snippet PZT::modules/directory
-zplg ice svn silent; zplg snippet PZT::modules/history
-zplg ice svn silent; zplg snippet PZT::modules/completion
-
-zstyle ':prezto:module:editor' key-bindings 'bindings'
 zstyle ':prezto:module:editor' dot-expansion 'yes'
 zstyle ':prezto:module:editor' ps-context 'yes'
-zplg ice svn silent; zplg snippet PZT::modules/editor
+zplg snippet PZT::modules/editor/init.zsh
 
 # zplg load "jreese/zsh-titles"
 zstyle ':prezto:module:terminal' auto-title 'yes'
-zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
-zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
-zplg ice svn silent; zplg snippet PZT::modules/terminal
-
-zplg ice svn lucid wait'1'; zplg snippet PZT::modules/osx
-zplg ice svn lucid wait'1'; zplg snippet PZT::modules/gpg
+zplg snippet PZT::modules/terminal/init.zsh
+# }}}
 
 zplg ice wait'1' as"completion" lucid
 zplg snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
@@ -38,27 +39,19 @@ zplg snippet https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/terra
 zplg light mafredri/zsh-async
 zplg ice depth'1'; zplg light denysdovhan/spaceship-prompt
 
-zplg ice svn wait'0' lucid atinit"local ZSH_CACHE_DIR=~/.cache"
-zplg snippet OMZ::plugins/fasd
-
+# Python {{{
 zplg ice lucid wait'1' atinit"local ZSH_PYENV_LAZY_VIRTUALENV=true"
 zplg light davidparsson/zsh-pyenv-lazy
 # zplg ice svn wait'2' silent; zplg snippet OMZ::plugins/pyenv
-zplg ice svn wait'2' silent; zplg snippet OMZ::plugins/pipenv
+zplg ice wait'2' silent; zplg snippet OMZ::plugins/pipenv/pipenv.plugin.zsh
+# }}}
 
-zplg ice svn silent; zplg snippet OMZ::plugins/vi-mode
+zplg ice silent; zplg snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
+zplg ice wait'0' lucid atload"unalias d"
+zplg snippet OMZ::plugins/fasd/fasd.plugin.zsh
 
-zplg ice wait"0" blockf lucid
+zplg ice wait'0' blockf lucid
 zplg light zsh-users/zsh-completions
-
-zplg light zsh-users/zsh-history-substring-search
-  zmodload zsh/terminfo
-  [ -n "${terminfo[kcuu1]}" ] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
-  [ -n "${terminfo[kcud1]}" ] && bindkey "${terminfo[kcud1]}" history-substring-search-down
-  bindkey -M emacs '^P' history-substring-search-up
-  bindkey -M emacs '^N' history-substring-search-down
-  bindkey -M vicmd 'k' history-substring-search-up
-  bindkey -M vicmd 'j' history-substring-search-down
 
 zplg ice wait"0" lucid; zplg load zdharma/history-search-multi-word
 
@@ -72,35 +65,50 @@ zplg ice as"program" make'!' \
             atpull'%atclone' src"zhook.zsh"
 zplg light direnv/direnv
 
+zplg ice from"gh-r" as"program" bpick"krew.tar.gz" \
+            mv"krew-darwin_amd64 -> krew" pick"krew" \
+            atclone"rm -f krew-* && ./krew install krew" \
+            atpull"%atclone" has"kubectl"
+zplg light kubernetes-sigs/krew
+
 zplg ice wait"0" lucid; zplg light marzocchi/zsh-notify
 
-# iTerm2 integration
-# zplg ice depth'1' pick"source/shell_integration/zsh" if"[[ $+ITERM_PROFILE ]]"
-# zplg light gnachman/iterm2-website
-# zplg ice depth'1' wait"0" lucid as"command" pick"source/utilities/*" if"[[ $+ITERM_PROFILE ]]"
-# zplg light gnachman/iterm2-website
-zplg ice svn silent if"[[ $+ITERM_PROFILE ]]"; zplg snippet OMZ::plugins/iterm2
-zplg ice pick'init.zsh' compile'*.zsh' if"[[ $+ITERM_PROFILE ]]"
-zplg light laggardkernel/zsh-iterm2
+# iTerm2 integration {{{
+zplg ice silent if"[[ $+ITERM_PROFILE ]]"; zplg snippet OMZ::plugins/iterm2/iterm2.plugin.zsh
+zplg ice as"command" pick"bin/*" \
+  atclone'./_utils/download_files.sh' \
+  atpull'%atclone' if"[[ $+ITERM_PROFILE ]]"
+zplg light decayofmind/zsh-iterm2-utilities
+zplg snippet 'https://raw.githubusercontent.com/gnachman/iterm2-website/master/source/shell_integration/zsh'
+# }}}
 
-# Colors
+# Colors {{{
+zplg light 'chrissicool/zsh-256color'
 zplg ice atclone"dircolors -b src/dir_colors > c.zsh" \
             atpull'%atclone' \
             pick"c.zsh" \
             nocompile'!'
-zplg load arcticicestudio/nord-dircolors
-
-zplg light 'chrissicool/zsh-256color'
+zplg light arcticicestudio/nord-dircolors
 zplg ice pick"async.sh" src"scripts/base16-chalk.sh"
 zplg light "chriskempson/base16-shell"
-
 zplg ice lucid wait'0' \
-	    src'bash/base16-chalk.config' \
-	    pick'bash/base16-chalk.config' nocompile'!'
+            src'bash/base16-chalk.config' \
+            pick'bash/base16-chalk.config' nocompile'!'
 zplg light 'nicodebo/base16-fzf'
+# }}}
 
 zplg ice wait"1" atinit"zpcompinit; zpcdreplay" lucid
 zplg light zdharma/fast-syntax-highlighting
+zplg light zsh-users/zsh-history-substring-search
+  zmodload zsh/terminfo
+  [ -n "${terminfo[kcuu1]}" ] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
+  [ -n "${terminfo[kcud1]}" ] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+  bindkey -M emacs '^P' history-substring-search-up
+  bindkey -M emacs '^N' history-substring-search-down
+  bindkey -M vicmd 'k' history-substring-search-up
+  bindkey -M vicmd 'j' history-substring-search-down
+
+# }}}
 
 if (which zprof > /dev/null) ;then
   zprof | less
@@ -118,16 +126,32 @@ for file in ${HOME}/.zsh/*.zsh; do
   source $file
 done
 
+# FZF {{{
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd -t d ."
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+# }}}
 
 export HOMEBREW_NO_ANALYTICS=1
 
+# Spaceship prompt {{{
 SPACESHIP_PROMPT_SEPARATE_LINE=false
-SPACESHIP_PROMPT_ORDER=(dir host vi_mode jobs char)
+SPACESHIP_PROMPT_ORDER=(
+  dir
+  host
+  vi_mode
+  jobs
+  char
+)
+SPACESHIP_RPROMPT_ORDER=(
+  terraform
+  kubecontext
+  venv
+  git
+  exit_code
+)
 SPACESHIP_PROMPT_ADD_NEWLINE=false
 SPACESHIP_CHAR_SYMBOL='❯ '
 SPACESHIP_VI_MODE_SUFFIX='❯'
@@ -140,4 +164,4 @@ SPACESHIP_KUBECONTEXT_SYMBOL='⎈  '
 SPACESHIP_PYENV_SHOW=false
 SPACESHIP_EXIT_CODE_SHOW=true
 SPACESHIP_EXIT_CODE_SYMBOL='✘ '
-SPACESHIP_RPROMPT_ORDER=(terraform kubecontext venv git exit_code)
+# }}}
