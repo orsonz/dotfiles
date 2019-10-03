@@ -1,24 +1,29 @@
 [core]
-	excludesfile = /Users/zengeist/.gitignore
+	excludesfile = ~/.gitignore
 	editor = nvim
 [user]
 	name = Roman Komkov
 	useConfigOnly = true
+[commit]
+	verbose = true
 [alias]
 	co = checkout
 	s = status -s -b
 	b = branch
 	f = fetch
 	c = commit
-	mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+	mt = mergetool
 	ps = push
 	pst = push --tags
 	pl = pull
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	sa = stash apply
+	sl = stash list --pretty=format:'%Cblue%h %Cred* %C(yellow)%s'
 	in = "!git remote update -p; git log ..@{u}"
 	out = log @{u}..
 	sh = describe --always
+	unstage = reset -q HEAD --
 	d = difftool
 [push]
 	default = current
@@ -33,13 +38,21 @@
         status = auto
 [diff]
 	prompt = true
-	tool = vimdiff
+	tool = nvimdiff2
 [merge]
 	prompt = true
-	tool = vimdiff
+	tool = nvimdiff4
 [github]
 	user = decayofmind
 [difftool]
 	prompt = false
 [diff "sopsdiffer"]
 	textconv = sops -d
+[mergetool "nvimdiff4"]
+	cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[mergetool "nfugitive"]
+	cmd = nvim -f -c "Gdiff" "$MERGED"
+[diff]
+	tool = nvimdiff2
+[difftool "nvimdiff2"]
+	cmd = nvim -d $LOCAL $REMOTE
