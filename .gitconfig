@@ -23,6 +23,7 @@
 	in = "!git remote update -p; git log ..@{u}"
 	out = log @{u}..
 	sh = describe --always
+	undo = checkout --
 	unstage = reset -q HEAD --
 	d = difftool
 [push]
