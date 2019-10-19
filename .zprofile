@@ -18,12 +18,16 @@ if [[ ! -d "$ZSH_CACHE_DIR" ]]; then
   /bin/chmod 0700 "$ZSH_CACHE_DIR"
 fi
 
+# set base16 theme
+export BASE16_THEME='chalk'
+
 # eliminates duplicates in *paths
 typeset -gU cdpath fpath path
 
 # Zsh search path for executable
 path=(
   $HOME/.krew/bin
+  /usr/local/opt/node@10/bin
   /usr/local/{bin,sbin}
   $path
 )

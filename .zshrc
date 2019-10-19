@@ -40,7 +40,8 @@ zplg light mafredri/zsh-async
 zplg ice depth'1'; zplg light denysdovhan/spaceship-prompt
 
 # Python {{{
-zplg ice lucid wait'1' atinit"local ZSH_PYENV_LAZY_VIRTUALENV=true"
+zplg ice lucid wait'1' atinit"local ZSH_PYENV_LAZY_VIRTUALENV=true" \
+  atload"pyenv virtualenvwrapper_lazy"
 zplg light davidparsson/zsh-pyenv-lazy
 # zplg ice svn wait'2' silent; zplg snippet OMZ::plugins/pyenv
 zplg ice wait'2' silent; zplg snippet OMZ::plugins/pipenv/pipenv.plugin.zsh
@@ -60,17 +61,6 @@ zplg ice lucid wait"0" atclone"sed -ie 's/fc -rl 1/fc -rli 1/' shell/key-binding
   pick"/dev/null"
 zplg light junegunn/fzf
 
-zplg ice as"program" make'!' \
-            atclone'./direnv hook zsh > zhook.zsh' \
-            atpull'%atclone' src"zhook.zsh"
-zplg light direnv/direnv
-
-zplg ice from"gh-r" as"program" bpick"krew.tar.gz" \
-            mv"krew-darwin_amd64 -> krew" pick"krew" \
-            atclone"rm -f krew-* && ./krew install krew" \
-            atpull"%atclone" has"kubectl"
-zplg light kubernetes-sigs/krew
-
 zplg ice wait"0" lucid; zplg light marzocchi/zsh-notify
 
 # iTerm2 integration {{{
@@ -82,6 +72,22 @@ zplg light decayofmind/zsh-iterm2-utilities
 zplg snippet 'https://raw.githubusercontent.com/gnachman/iterm2-website/master/source/shell_integration/zsh'
 # }}}
 
+# Programs {{{
+zplg ice as"program" make'!' \
+            atclone'./direnv hook zsh > zhook.zsh' \
+            atpull'%atclone' src"zhook.zsh"
+zplg light direnv/direnv
+
+zplg ice from"gh-r" as"program" bpick"krew.tar.gz" \
+            mv"krew-darwin_amd64 -> krew" pick"krew" \
+            atclone"rm -f krew-* && ./krew install krew" \
+            atpull"%atclone" has"kubectl"
+zplg light kubernetes-sigs/krew
+
+zplg ice from"gh-r" as"program" bpick"*darwin_amd64*" pick"terraform-lsp"
+zplg light juliosueiras/terraform-lsp
+# }}}
+
 # Colors {{{
 zplg light 'chrissicool/zsh-256color'
 zplg ice atclone"dircolors -b src/dir_colors > c.zsh" \
@@ -89,11 +95,11 @@ zplg ice atclone"dircolors -b src/dir_colors > c.zsh" \
             pick"c.zsh" \
             nocompile'!'
 zplg light arcticicestudio/nord-dircolors
-zplg ice pick"async.sh" src"scripts/base16-chalk.sh"
+zplg ice atload"base16_${BASE16_THEME}"
 zplg light "chriskempson/base16-shell"
 zplg ice lucid wait'0' \
-            src'bash/base16-chalk.config' \
-            pick'bash/base16-chalk.config' nocompile'!'
+            src"bash/base16-${BASE16_THEME}.config" \
+            pick"bash/base16-${BASE16_THEME}.config" nocompile'!'
 zplg light 'nicodebo/base16-fzf'
 # }}}
 
@@ -134,8 +140,6 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
 # }}}
 
-export HOMEBREW_NO_ANALYTICS=1
-
 # Spaceship prompt {{{
 SPACESHIP_PROMPT_SEPARATE_LINE=false
 SPACESHIP_PROMPT_ORDER=(
@@ -164,4 +168,10 @@ SPACESHIP_KUBECONTEXT_SYMBOL='⎈  '
 SPACESHIP_PYENV_SHOW=false
 SPACESHIP_EXIT_CODE_SHOW=true
 SPACESHIP_EXIT_CODE_SYMBOL='✘ '
+SPACESHIP_GIT_STATUS_PREFIX=' '
+SPACESHIP_GIT_STATUS_SUFFIX=''
+SPACESHIP_GIT_STATUS_COLOR='magenta'
+SPACESHIP_TERRAFORM_SYMBOL=' '
 # }}}
+
+export HOMEBREW_NO_ANALYTICS=1

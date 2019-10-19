@@ -1,0 +1,30 @@
+#!/bin/bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OS_TYPE=$(uname -s)
+
+# shellcheck source=lib.sh
+source "$SCRIPT_DIR/lib.sh"
+
+if [ -n "$1" ]; then
+  $1
+  exit $?
+fi
+
+if [ "$OS_TYPE" = "Darwin" ]; then
+  install_brew
+  install_fonts
+  install_npm
+  install_defaults
+  install_plists
+
+  # configure iterm2
+  if [ -d "$HOME/.iterm2" ]; then
+    echo "Setting iTerm preference folder"
+    wget
+    open "$HOME".iterm2/
+    defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
+  fi
+fi
+
+# vim: ft=sh
