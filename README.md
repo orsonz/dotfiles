@@ -16,7 +16,7 @@
 ```
 
 ```sh
-  yadm clone https://github.com/decayofmind/dotfiles.git
+  yadm clone https://github.com/orsonz/dotfiles.git
 ```
 
 ## Key Bindings

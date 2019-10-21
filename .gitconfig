@@ -2,7 +2,7 @@
 	excludesfile = ~/.gitignore
 	editor = nvim
 [user]
-	name = Roman Komkov
+	name = Uģis Ornicāns
 	useConfigOnly = true
 [commit]
 	verbose = true
@@ -35,8 +35,8 @@
 [color]
 	branch = auto
 	diff = auto
-        interactive = auto
-        status = auto
+	interactive = auto
+	status = auto
 [diff]
 	prompt = true
 	tool = nvimdiff2
@@ -44,7 +44,7 @@
 	prompt = true
 	tool = nvimdiff4
 [github]
-	user = decayofmind
+	user = orsonz
 [difftool]
 	prompt = false
 [diff "sopsdiffer"]
