@@ -79,6 +79,7 @@ cask "vagrant"
 cask "virtualbox"
 cask "visual-studio-code"
 cask "homebrew/cask-drivers/logitech-control-center"
+cask "microsoft-remote-desktop-beta"
 cask "scroll-reverser"
 mas "Amphetamine", id: 937984704
 mas "Grammarly for Safari", id: 1462114288
