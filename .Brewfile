@@ -78,6 +78,8 @@ cask "touchswitcher"
 cask "vagrant"
 cask "virtualbox"
 cask "visual-studio-code"
+cask "homebrew/cask-drivers/logitech-control-center"
+cask "scroll-reverser"
 mas "Amphetamine", id: 937984704
 mas "Grammarly for Safari", id: 1462114288
 mas "JSONPeep", id: 1458969831
