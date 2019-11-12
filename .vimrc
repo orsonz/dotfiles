@@ -112,8 +112,11 @@ endif
 call plug#begin('~/.vim/bundle')
   Plug 'tpope/vim-sleuth'
   Plug 'tpope/vim-dispatch'
+  Plug 'AdUki/vim-dispatch-neovim'
   Plug 'jszakmeister/vim-togglecursor'
   Plug 'svermeulen/vim-yoink'
+  Plug 'airblade/vim-rooter'
+  Plug 'direnv/direnv.vim'
 
   Plug 'junegunn/vim-peekaboo'  " browse registers
 
@@ -168,7 +171,7 @@ call plug#begin('~/.vim/bundle')
   Plug 'liuchengxu/vista.vim'  " tagbar replacement
   Plug 'ludovicchabant/vim-gutentags'
   Plug 'sheerun/vim-polyglot'  " multilanguage
-  Plug 'juliosueiras/vim-terraform-completion'  " ?
+  Plug 'fatih/vim-go'
 
   Plug 'dense-analysis/ale'  " linting (requires async)
   Plug 'neoclide/coc.nvim', {'branch': 'release'}  " completion
@@ -179,6 +182,7 @@ call plug#begin('~/.vim/bundle')
 
   " Misc
   Plug 'ryanoasis/vim-devicons'
+  Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 
 call plug#end()
 " }}}
@@ -193,6 +197,7 @@ set t_md=
 if has('termguicolors')
   set termguicolors
 endif
+set t_md=
 
 " set colorscheme
 if isdirectory(expand('~/.vim/bundle/base16-vim'))
@@ -338,6 +343,13 @@ let g:coc_filetype_map = {
     \ 'yaml.ansible': 'yaml'
 \ }
 
+nmap <leader>gc <Plug>(coc-git-commit)
+nmap <leader>gd :CocCommand git.diffCached<CR>
+nnoremap <leader>gf :CocCommand git.foldUnchanged<CR>
+nnoremap <leader>gs :CocCommand git.chunkStage<CR>
+nnoremap <leader>gu :CocCommand git.chunkUndo<CR>
+nnoremap <leader>gi :CocCommand git.chunkInfo<CR>
+
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 
@@ -359,6 +371,7 @@ let g:indentLine_char='⎸'
 let g:indentLine_faster = 1
 let g:indentLine_setConceal = 1
 let g:indentLine_fileTypeExclude = ['markdown']
+let g:indentLine_bufTypeExclude = ['help', 'terminal']
 
 let g:better_whitespace_filetypes_blacklist=['gitcommit']
 
@@ -394,6 +407,11 @@ xmap gs <plug>(GrepperOperator)
 
 " }}}
 
+" Custom commands
+command! -nargs=+ S execute 'silent <args>' | redraw!
+command! -nargs=* T split | resize 15 | term <args>
+command! -nargs=* VT vsplit | term <args>
+
 " No arrows in Normal mode
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -402,7 +420,8 @@ noremap <Right> <NOP>
 
 inoremap jj <Esc>
 inoremap <C-space> <C-x><C-o>
-nmap <silent> <leader>ev :e ~/.vimrc<CR>
+nmap <silent> <leader>ve :e ~/.vimrc<CR>
+nnoremap <silent> <leader>vr :source $MYVIMRC<CR>
 
 nnoremap <F9> :set nu! nu?<CR>
 
@@ -413,13 +432,14 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+nnoremap <leader>w :w<CR>
 nnoremap <leader>x :bd<CR>
 nnoremap <leader>X :bd!<CR>
 
 nnoremap <M-Tab> <C-w>w
 
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprev<CR>
+nnoremap <expr> <Tab> (&buftype is# "quickfix" ? "" : ":bnext<CR>")
+nnoremap <expr> <S-Tab> (&buftype is# "quickfix" ? "" : ":bprev<CR>")
 
 nnoremap <leader>Tp :set ft=python<CR>
 nnoremap <leader>Ta :set ft=ansible<CR>
@@ -437,6 +457,7 @@ cnoreabbrev Q q
 cnoreabbrev Qall qall
 
 nnoremap <Leader>D :Dispatch<SPACE>
+nnoremap <Leader>T :T<SPACE>
 
 " auto quit vim if main file is closed
 function! s:CheckLeftBuffers()
@@ -460,15 +481,15 @@ endfunction
 augroup vimrc
     autocmd!
     autocmd BufEnter * call s:CheckLeftBuffers()
-    autocmd BufRead,BufNewFile *.json setlocal conceallevel=0
+    autocmd BufRead,BufNewFile *.json setlocal conceallevel=0 foldmethod=syntax
     autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown
             \ setlocal spell ft=markdown colorcolumn=80 conceallevel=0
+    autocmd BufRead,BufNewFile *.yml,*.yaml setlocal colorcolumn=160
     autocmd BufWritePre * StripWhitespace
     autocmd BufWritePost ~/.vimrc source ~/.vimrc  | call lightline#functions#reload()
     autocmd FileType sh set et ts=4 sw=4
     autocmd FileType qf setlocal nobuflisted
+    autocmd TermOpen term://* setlocal scrolloff=0 nonumber norelativenumber | startinsert
 augroup END
-
-command! -nargs=+ S execute 'silent <args>' | redraw!
 
 " vim: set et fenc=utf-8 ft=vim sts=2 sw=2 ts=2 tw=120 :
