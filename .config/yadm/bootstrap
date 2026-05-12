@@ -22,7 +22,7 @@ if [ "$OS_TYPE" = "Darwin" ]; then
   if [ -d "$HOME/.iterm2" ]; then
     echo "Setting iTerm preference folder"
     wget
-    open "$HOME".iterm2/
+    open "$HOME"/.iterm2/
     defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/.iterm2"
   fi
 fi
