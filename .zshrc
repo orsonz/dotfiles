@@ -70,7 +70,7 @@ zinit ice as"command" pick"bin/*" \
   atclone'./_utils/download_files.sh' \
   atpull'%atclone' if"[[ $+ITERM_PROFILE ]]"
 zinit light decayofmind/zsh-iterm2-utilities
-zinit snippet 'https://raw.githubusercontent.com/gnachman/iterm2-website/master/source/shell_integration/zsh'
+zinit snippet 'https://raw.githubusercontent.com/gnachman/iterm2-website/refs/heads/master/source/misc/install_shell_integration_and_utilities.sh'
 # }}}
 
 # Programs {{{
