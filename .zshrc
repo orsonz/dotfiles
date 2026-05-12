@@ -79,10 +79,9 @@ zinit ice as"program" make'!' \
             atpull'%atclone' src"zhook.zsh"
 zinit light direnv/direnv
 
-zinit ice from"gh-r" as"program" bpick"krew.tar.gz" \
-            mv"krew-darwin_amd64 -> krew" pick"krew" \
-            atclone"rm -f krew-* && ./krew install krew" \
-            atpull"%atclone" has"kubectl"
+zinit ice from"gh-r" as"program" bpick"*$(uname | tr '[:upper:]' '[:lower:]')_amd64.tar.gz" \
+            mv"krew-$(uname | tr '[:upper:]' '[:lower:]')_amd64 -> krew" pick"krew" \
+            atclone"./krew install krew" atpull"%atclone" has"kubectl"
 zinit light kubernetes-sigs/krew
 
 zinit ice from"gh-r" as"program" bpick"*darwin_amd64*" pick"terraform-lsp"
