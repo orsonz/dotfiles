@@ -20,13 +20,6 @@ path=(
   $path
 )
 
-# Editor
-export VISUAL=vim
-if command -v nvim > /dev/null 2>&1; then
-  export VISUAL=nvim
-fi
-export EDITOR=$VISUAL
-
 # Setup ZSH cache directory
 export ZSH_CACHE_DIR="$HOME/.cache/zsh"
 if [[ ! -d "$ZSH_CACHE_DIR" ]]; then

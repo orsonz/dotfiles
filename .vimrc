@@ -1,5 +1,4 @@
 let s:darwin = has('mac')
-let s:has_async = v:version >= 800 || has('nvim')
 
 " General {{{
 
@@ -174,7 +173,6 @@ call plug#begin('~/.vim/bundle')
   Plug 'fatih/vim-go'
 
   Plug 'dense-analysis/ale'  " linting (requires async)
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}  " completion
   " }}}
 
   " Color theme
@@ -226,32 +224,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-
-if has('nvim')
-let $FZF_DEFAULT_OPTS='--layout=reverse'
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, 'number', 'no')
-
-  let height = float2nr(&lines/2)
-  let width = float2nr(&columns - (&columns * 4 / 10))
-  let row = float2nr(&lines / 4)
-  let col = float2nr((&columns - width) / 2)
-
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': row,
-        \ 'col': col,
-        \ 'width': width,
-        \ 'height':height,
-        \ }
-  let win =  nvim_open_win(buf, v:true, opts)
-  call setwinvar(win, '&number', 0)
-  call setwinvar(win, '&relativenumber', 0)
-endfunction
-endif
 
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
 nnoremap <silent> <Leader><Enter>  :Buffers<CR>
