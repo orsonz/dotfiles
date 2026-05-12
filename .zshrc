@@ -57,7 +57,7 @@ zinit light zsh-users/zsh-completions
 zinit ice wait"0" lucid; zinit load zdharma-continuum/history-search-multi-word
 
 zinit ice lucid wait"0" atclone"sed -ie 's/fc -rl 1/fc -rli 1/' shell/key-bindings.zsh" \
-  atpull"%atclone" multisrc"shell/{completion,key-bindings.zsh}" id-as"junegunn/fzf_completions" \
+  atpull"%atclone" multisrc"shell/{completion.zsh,key-bindings.zsh}" id-as"junegunn/fzf_completions" \
   pick"/dev/null"
 zinit light junegunn/fzf
 
