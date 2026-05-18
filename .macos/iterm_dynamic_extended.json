@@ -14,7 +14,7 @@
       "Allow Title Reporting": true,
       "BM Growl": false,
       "Columns": 120,
-      "Command": "/usr/local/bin/zsh",
+      "Command": "/opt/homebrew/bin/zsh",
       "Custom Command": "Yes",
       "Custom Directory": "Advanced",
       "Draw Powerline Glyphs": true,

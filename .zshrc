@@ -181,3 +181,5 @@ SPACESHIP_TERRAFORM_SYMBOL=' '
 
 export HOMEBREW_NO_ANALYTICS=1
 export KEYTIMEOUT=1
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
