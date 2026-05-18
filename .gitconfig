@@ -1,6 +1,7 @@
 [core]
 	excludesfile = ~/.gitignore
-	editor = vim
+	editor = nvim
+	pager = delta
 [user]
 	name = Uģis Ornicāns
 	useConfigOnly = true
@@ -38,14 +39,66 @@
 	interactive = auto
 	status = auto
 [diff]
+	colorMoved = default
 	prompt = true
+	tool = nvimdiff2
 [merge]
 	prompt = true
+	tool = nvim
+	keepBackup = false
 [github]
-	user = orsonz
+	user = decayofmind
 [difftool]
 	prompt = false
 [diff "sopsdiffer"]
 	textconv = sops -d
+; [mergetool "diffview.nvim"]
+; 	cmd = nvim \"+DiffviewOpen\"
+[mergetool "nvim"]
+	cmd = nvim -f -c \"DiffviewOpen\"
+	# trustExitCode = true
+	prompt = false
+; [mergetool "nvimdiff4"]
+; 	cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+; [mergetool "nfugitive"]
+; 	cmd = nvim -f -c "Gdiff" "$MERGED"
+[mergetool "gitconflict"]
+	cmd = nvim \"$MERGED\"
+	trustExitCode = true
+	prompt = false
+[diff]
+	tool = nvimdiff2
+[difftool "nvimdiff2"]
+	cmd = nvim -d $LOCAL $REMOTE
+[diff "plist"]
+	textconv = plutil -convert xml1 -o -
+[init]
+	templateDir = /Users/roman.komkov/.git-template
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
+[delta]
+	features = decorations
+
+[delta "interactive"]
+	keep-plus-minus-markers = false
+
+[delta "decorations"]
+	commit-decoration-style = blue ol
+	commit-style = raw
+	file-style = omit
+	hunk-header-decoration-style = blue box
+	hunk-header-file-style = red
+	hunk-header-line-number-style = "#067a00"
+	hunk-header-style = file line-number syntax
+
+[include]
+	path = ~/.gitconfig.local
 [diff "plist"]
 	textconv = plutil -convert xml1 -o -
